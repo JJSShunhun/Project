@@ -4,7 +4,7 @@ const Footer = (props) => {
   return (
     <footer id="footerType" className={`footer__wrap ${props.element}`}>
       <h2 className="blind">푸터 영역</h2>
-      <div className="footer__inner container">
+      <div className="footer__inner footer__container"> {/* 클래스명을 수정 */}
         <div className="footer__menu">
           <div></div>
           <div>
@@ -66,3 +66,4 @@ const Footer = (props) => {
 };
 
 export default Footer;
+

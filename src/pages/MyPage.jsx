@@ -1,10 +1,12 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "../assets/css/MyPage.css";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 
 function MyPage() {
   const [profileImage, setProfileImage] = useState(null);
+  const navigate = useNavigate();
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -13,12 +15,14 @@ function MyPage() {
     }
   };
 
+  const handleFavoritesClick = () => {
+    navigate("/favorites"); // 관심 공연 페이지로 이동
+  };
+
   return (
     <div>
       <Header />
       <div className="container">
-        <h1 className="title">마이페이지</h1>
-
         <div className="profile-container">
           {profileImage ? (
             <img
@@ -44,10 +48,10 @@ function MyPage() {
         </div>
 
         <div className="info-container">
-          <p>이름 : 정상훈</p>
+          <p>이름 : 김성엽</p>
           <p>닉네임 : 주4일제</p>
-          <button>내가 작성한 글 바로가기</button>
-          <button>나의 관심 공연 바로가기</button>
+          <p>이메일 : jack7250@naver.com</p>
+          <button onClick={handleFavoritesClick}>나의 관심 공연 바로가기</button>
         </div>
       </div>
       <Footer />
@@ -56,3 +60,4 @@ function MyPage() {
 }
 
 export default MyPage;
+

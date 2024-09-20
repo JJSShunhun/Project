@@ -8,10 +8,13 @@ const Promotion = ({ posts }) => {
     <div>
       <Header />
       <h1>공연 홍보</h1>
-      <PostList posts={posts} />
+      {/* PostList에 카테고리 정보 전달 */}
+      <PostList posts={posts} writePath="/promotion/write" category="promotion" />
       <Footer />
     </div>
   );
 };
 
 export default Promotion;
+
+

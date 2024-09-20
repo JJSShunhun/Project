@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 import "../assets/css/PostWrite.css";
 
-const PostWrite = ({ onAddPost }) => {
+const PostWrite = ({ onAddPost, category }) => { // category를 추가로 받음
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (title && content) {
-      onAddPost(title, content);
+      onAddPost(title, content, category); // 카테고리도 함께 전달
       alert("게시글을 등록했습니다.");
       setTitle(""); // 폼 초기화
       setContent("");

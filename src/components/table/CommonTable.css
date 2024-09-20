@@ -1,6 +1,7 @@
 .common-table {
-  width: 110%;
+  width: 90%;
   margin: 0 auto;
+  margin-right: 100px;
   text-align: center;
   border-spacing: 0;
 }

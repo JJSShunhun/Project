@@ -5,6 +5,22 @@ import "../assets/css/ConcertList.css";
 
 function ConcertInfo() {
   const [selectedEventId, setSelectedEventId] = useState(null);
+  const [favoriteEvents, setFavoriteEvents] = useState(() => {
+    const savedFavorites = localStorage.getItem("favoriteEvents");
+    return savedFavorites ? JSON.parse(savedFavorites) : [];
+  });
+
+  // 관심 공연 등록/해제 함수
+  const toggleFavorite = (id) => {
+    let updatedFavorites;
+    if (favoriteEvents.includes(id)) {
+      updatedFavorites = favoriteEvents.filter((eventId) => eventId !== id);
+    } else {
+      updatedFavorites = [...favoriteEvents, id];
+    }
+    setFavoriteEvents(updatedFavorites);
+    localStorage.setItem("favoriteEvents", JSON.stringify(updatedFavorites)); // 로컬 스토리지에 저장
+  };
 
   const handleDetailsClick = (id) => {
     setSelectedEventId(id);
@@ -14,7 +30,6 @@ function ConcertInfo() {
     setSelectedEventId(null);
   };
 
-  // 스크롤 방지
   useEffect(() => {
     if (selectedEventId !== null) {
       document.body.style.overflow = "hidden";
@@ -26,7 +41,6 @@ function ConcertInfo() {
     };
   }, [selectedEventId]);
 
-  // 등록된 공연 없을 시
   if (events.length === 0) {
     return (
       <div className="list-container">
@@ -42,6 +56,15 @@ function ConcertInfo() {
       <div className="list">
         {events.map((event) => (
           <div key={event.id} className="card">
+            <div className="card-header">
+              {/* 관심 공연 별 아이콘 */}
+              <span
+                className="star-icon"
+                onClick={() => toggleFavorite(event.id)}
+              >
+                {favoriteEvents.includes(event.id) ? "★" : "☆"}
+              </span>
+            </div>
             <img src={event.imageUrl} alt="대표 이미지 준비 중" />
             <div className="card-info">
               <h3>{event.title}</h3>
@@ -65,3 +88,5 @@ function ConcertInfo() {
 }
 
 export default ConcertInfo;
+
+

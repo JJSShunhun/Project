@@ -123,3 +123,19 @@
 .slick-slide div {
   margin: 0 1rem;
 }
+
+/* 관심 공연 별 아이콘 */
+.star-icon {
+  font-size: 24px;
+  color: yellow; /* 노란색으로 표시 */
+  cursor: pointer;
+}
+
+.card-header {
+  display: flex;
+  justify-content: flex-end;
+  padding: 10px;
+  width: 100%;
+}
+
+

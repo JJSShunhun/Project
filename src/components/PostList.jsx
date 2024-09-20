@@ -4,7 +4,7 @@ import "../assets/css/PostList.css";
 import "../assets/css/Pagination.css";
 import Pagination from "react-js-pagination";
 
-const PostList = ({ posts }) => {
+const PostList = ({ posts, writePath, category }) => { // category 추가
   const [page, setPage] = useState(1);
   const navigate = useNavigate();
   const postsPerPage = 10;
@@ -18,11 +18,12 @@ const PostList = ({ posts }) => {
   const currentPosts = posts.slice(indexOfFirstPost, indexOfLastPost);
 
   const handlePostClick = (id) => {
-    navigate(`/talk/${id}`);
+    // 카테고리와 글번호를 URL에 포함하여 이동
+    navigate(`/${category}/${id}`);
   };
 
   const handleWriteButtonClick = () => {
-    navigate("/talk/write");
+    navigate(writePath); // 글쓰기 버튼
   };
 
   return (
@@ -69,4 +70,6 @@ const PostList = ({ posts }) => {
     </div>
   );
 };
+
 export default PostList;
+

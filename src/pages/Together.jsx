@@ -8,10 +8,13 @@ const Together = ({ posts }) => {
     <div>
       <Header />
       <h1>같이 봐요!</h1>
-      <PostList posts={posts} />
+      {/* PostList에 카테고리 정보 전달 */}
+      <PostList posts={posts} writePath="/together/write" category="together" />
       <Footer />
     </div>
   );
 };
 
 export default Together;
+
+
