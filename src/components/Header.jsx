@@ -31,7 +31,6 @@ const Header = (props) => {
         <div className="header__member">
           <NavLink to="/mypage">마이페이지</NavLink>
           <NavLink to="/login">로그인</NavLink>
-          <NavLink to="/signup">회원가입</NavLink>
         </div>
       </div>
     </header>
