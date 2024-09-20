@@ -24,15 +24,25 @@ import FavoriteInfo from "./pages/FavoriteInfo"; // 새로 추가된 FavoriteInf
 function App() {
   const [posts, setPosts] = useState([]);
 
-  useEffect(() => {
+  /*useEffect(() => {
     const savedPosts = JSON.parse(localStorage.getItem("posts"));
     if (savedPosts) {
       setPosts(savedPosts);
     }
+  }, []); */
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const savedPosts = JSON.parse(localStorage.getItem("posts"));
+      if (savedPosts) {
+        setPosts(savedPosts);
+      }
+    }
   }, []);
+  
 
   const handleAddPost = (title, content, category) => {
-    // 로컬 스토리지에서 게시판별 카운터 값을 가져옴
+    /*// 로컬 스토리지에서 게시판별 카운터 값을 가져옴
     const postCountKey = `post_count_${category}`;
     let postCount = parseInt(localStorage.getItem(postCountKey), 10) || 0;
     postCount += 1;
@@ -51,7 +61,29 @@ function App() {
 
     // 로컬 스토리지에 게시판별 카운터 값 업데이트
     localStorage.setItem(postCountKey, postCount);
-    localStorage.setItem("posts", JSON.stringify(updatedPosts));
+    localStorage.setItem("posts", JSON.stringify(updatedPosts)); */
+
+    if (typeof window !== "undefined") {
+      const postCountKey = `post_count_${category}`;
+      let postCount = parseInt(localStorage.getItem(postCountKey), 10) || 0;
+      postCount += 1;
+  
+      const newPost = {
+        id: postCount,
+        title,
+        content,
+        category,
+        date: new Date().toLocaleDateString(),
+        views: 0,
+      };
+  
+      const updatedPosts = [newPost, ...posts];
+      setPosts(updatedPosts);
+  
+      localStorage.setItem(postCountKey, postCount);
+      localStorage.setItem("posts", JSON.stringify(updatedPosts));
+    }
+
   };
 
   return (

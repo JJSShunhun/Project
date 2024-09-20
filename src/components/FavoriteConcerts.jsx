@@ -4,10 +4,19 @@ import ConcertDetail from "./ConcertDetail"; // 공연 상세 정보 모달 컴�
 import "../assets/css/ConcertList.css";
 
 function FavoriteConcerts() {
-  const [favoriteEvents, setFavoriteEvents] = useState(() => {
+  /*const [favoriteEvents, setFavoriteEvents] = useState(() => {
     const savedFavorites = localStorage.getItem("favoriteEvents");
     return savedFavorites ? JSON.parse(savedFavorites) : [];
+  }); */
+
+  const [favoriteEvents, setFavoriteEvents] = useState(() => {
+    if (typeof window !== "undefined") {
+      const savedFavorites = localStorage.getItem("favoriteEvents");
+      return savedFavorites ? JSON.parse(savedFavorites) : [];
+    }
+    return [];
   });
+  
 
   const [selectedEventId, setSelectedEventId] = useState(null);
 

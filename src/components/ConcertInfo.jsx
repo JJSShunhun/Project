@@ -11,7 +11,7 @@ function ConcertInfo() {
   });
 
   // 관심 공연 등록/해제 함수
-  const toggleFavorite = (id) => {
+  /*const toggleFavorite = (id) => {
     let updatedFavorites;
     if (favoriteEvents.includes(id)) {
       updatedFavorites = favoriteEvents.filter((eventId) => eventId !== id);
@@ -28,7 +28,21 @@ function ConcertInfo() {
 
   const handleCloseModal = () => {
     setSelectedEventId(null);
+  }; */
+
+  const toggleFavorite = (id) => {
+    if (typeof window !== "undefined") {
+      let updatedFavorites;
+      if (favoriteEvents.includes(id)) {
+        updatedFavorites = favoriteEvents.filter((eventId) => eventId !== id);
+      } else {
+        updatedFavorites = [...favoriteEvents, id];
+      }
+      setFavoriteEvents(updatedFavorites);
+      localStorage.setItem("favoriteEvents", JSON.stringify(updatedFavorites));
+    }
   };
+  
 
   useEffect(() => {
     if (selectedEventId !== null) {
