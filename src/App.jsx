@@ -3,6 +3,7 @@ import { Routes, Route } from "react-router-dom";
 import "./assets/css/reset.css";
 import "./assets/css/style.css";
 import Home from "./pages/Home";
+import AfterHome from "./pages/AfterHome"
 import Intro from "./pages/Intro";
 import Info from "./pages/Info";
 import Find from "./pages/Find";
@@ -90,6 +91,7 @@ function App() {
     <>
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/after" element={<AfterHome />} />
         <Route path="/intro" element={<Intro />} />
         <Route path="/info_perform" element={<Info />} />
         <Route path="/find_perform" element={<Find />} />

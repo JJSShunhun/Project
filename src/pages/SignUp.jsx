@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom"; // 페이지 이동을 위한 useNavigate 추가
-import Header from "../components/Header";
+import Header from "../components/BeforeHeader";
 import Footer from "../components/Footer";
 import "../assets/css/SignUpPage.css";
 

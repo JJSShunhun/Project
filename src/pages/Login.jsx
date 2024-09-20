@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom"; // 페이지 이동을 위한 useNavigate 추가
-import Header from "../components/Header";
+import Header from "../components/BeforeHeader";
 import Footer from "../components/Footer";
 import "../assets/css/Login.css";
 
@@ -10,7 +10,7 @@ const Login = () => {
   const handleLogin = () => {
     // 로그인 버튼 클릭 시 1초 후 메인 페이지로 이동
     setTimeout(() => {
-      navigate("/");
+      navigate("/after");
     }, 500); //
   };
 
