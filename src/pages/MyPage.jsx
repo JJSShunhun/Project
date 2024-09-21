@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "../assets/css/MyPage.css";
 import Header from "../components/Header";
@@ -8,10 +8,24 @@ function MyPage() {
   const [profileImage, setProfileImage] = useState(null);
   const navigate = useNavigate();
 
+  // 마이페이지가 로드될 때 로컬 스토리지에서 프로필 이미지를 불러옴
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const savedImage = localStorage.getItem("profileImage");
+      if (savedImage) {
+        setProfileImage(savedImage);
+      }
+    }
+  }, []);
+
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      setProfileImage(URL.createObjectURL(file));
+      const imageUrl = URL.createObjectURL(file);
+      setProfileImage(imageUrl);
+      if (typeof window !== "undefined") {
+        localStorage.setItem("profileImage", imageUrl); // 프로필 이미지를 로컬 스토리지에 저장
+      }
     }
   };
 
@@ -60,4 +74,5 @@ function MyPage() {
 }
 
 export default MyPage;
+
 
