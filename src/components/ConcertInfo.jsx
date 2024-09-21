@@ -20,7 +20,7 @@ function ConcertInfo() {
     }
     setFavoriteEvents(updatedFavorites);
     localStorage.setItem("favoriteEvents", JSON.stringify(updatedFavorites)); // 로컬 스토리지에 저장
-  };
+  };*/
 
   const handleDetailsClick = (id) => {
     setSelectedEventId(id);
@@ -28,7 +28,7 @@ function ConcertInfo() {
 
   const handleCloseModal = () => {
     setSelectedEventId(null);
-  }; */
+  }; 
 
   const toggleFavorite = (id) => {
     if (typeof window !== "undefined") {
