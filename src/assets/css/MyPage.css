@@ -83,3 +83,9 @@
   text-decoration: underline; /* 밑줄 표시 */
 }
 
+.button-group {
+  display: flex;
+  gap: 10px; /* 버튼 사이의 간격 추가 */
+}
+
+

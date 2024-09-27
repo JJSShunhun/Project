@@ -1,4 +1,4 @@
-const postList = [
+const prepostList = [
   /*{
     no: 1,
     title: "첫번째 게시글입니다.",
@@ -38,11 +38,11 @@ const postList = [
 ];
 
 const getPostByNo = (no) => {
-  const array = postList.filter((x) => x.no == no);
+  const array = prepostList.filter((x) => x.no == no);
   if (array.length == 1) {
     return array[0];
   }
   return null;
 };
 
-export { postList, getPostByNo };
+export { prepostList, getPostByNo };

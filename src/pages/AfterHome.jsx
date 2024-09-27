@@ -1,14 +1,13 @@
 import React from "react";
-//import { useNavigate } from "react-router-dom";
 import Header from "../components/Header";
 import Main from "../components/Main";
 import Footer from "../components/Footer";
 
-const AfterHome = () => {
+const AfterHome = ({ posts }) => {
   return (
     <div>
       <Header />
-      <Main />
+      <Main posts={posts} />
       <Footer element="nexon section gray" />
     </div>
   );

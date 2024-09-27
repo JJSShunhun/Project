@@ -3,15 +3,18 @@ import { useParams, useNavigate } from "react-router-dom";
 import "../assets/css/PostDetail.css";
 
 const PostDetail = ({ posts = [], setPosts }) => {
-  const { id, category } = useParams(); // 카테고리와 글번호를 URL에서 가져옴
+  const { id, category } = useParams();
   const postId = parseInt(id, 10);
   const navigate = useNavigate();
   const [post, setPost] = useState(null);
   const [visitCount, setVisitCount] = useState(0);
-  const [comment, setComment] = useState(""); // 댓글 입력 상태
-  const [comments, setComments] = useState([]); // 댓글 목록 상태
+  const [comment, setComment] = useState("");
+  const [comments, setComments] = useState([]);
 
-  // 카테고리 이름 매핑
+  // 로그인된 사용자 정보 로컬 스토리지에서 가져오기
+  const loggedInUser = typeof window !== "undefined" ? JSON.parse(localStorage.getItem("loggedInUser")) : null;
+  const nickname = loggedInUser ? loggedInUser.nickname : "알 수 없음"; // 사용자 닉네임 설정
+
   const categoryNames = {
     talk: "인디토크",
     together: "같이 봐요",
@@ -19,105 +22,87 @@ const PostDetail = ({ posts = [], setPosts }) => {
     review: "공연후기",
   };
 
-  // 고정 닉네임
-  const nickname = "주4일제";
-
   useEffect(() => {
-    // 카테고리와 글번호가 모두 일치하는 게시글 찾기
-    const foundPost = posts.find((p) => p.id === postId && p.category === category);
-    if (foundPost) {
-      setPost(foundPost);
-      setComments(foundPost.comments || []); // 게시글에 저장된 댓글 불러오기
-      const visitKey = `visit_count_${category}_${postId}`; // 카테고리+글번호로 구분
+    if (typeof window !== "undefined") {
+      const foundPost = posts.find((p) => p.id === postId && p.category === category);
+      if (foundPost) {
+        setPost(foundPost);
+        setComments(foundPost.comments || []);
+        const visitKey = `visit_count_${category}_${postId}`;
+        let visitInfo = JSON.parse(localStorage.getItem(visitKey)) || {
+          count: 0,
+          lastVisited: null,
+        };
 
-      let visitInfo = JSON.parse(localStorage.getItem(visitKey)) || {
-        count: 0,
-        lastVisited: null,
-      };
+        const now = new Date().getTime();
 
-      const now = new Date().getTime();
+        if (!visitInfo.lastVisited || now - visitInfo.lastVisited > 1000) {
+          const newCount = visitInfo.count + 1;
+          setVisitCount(newCount);
 
-      if (!visitInfo.lastVisited || now - visitInfo.lastVisited > 1000) {
-        const newCount = visitInfo.count + 1;
-        setVisitCount(newCount);
+          const updatedPosts = posts.map((p) => (p.id === postId && p.category === category ? { ...p, views: newCount } : p));
+          setPosts(updatedPosts);
 
-        const updatedPosts = posts.map((p) =>
-          p.id === postId && p.category === category ? { ...p, views: newCount } : p
-        );
-        setPosts(updatedPosts);
-
-        localStorage.setItem(
-          visitKey,
-          JSON.stringify({ count: newCount, lastVisited: now })
-        );
-      } else {
-        setVisitCount(visitInfo.count);
+          localStorage.setItem(
+            visitKey,
+            JSON.stringify({ count: newCount, lastVisited: now })
+          );
+        } else {
+          setVisitCount(visitInfo.count);
+        }
       }
     }
   }, [postId, category, posts, setPosts]);
 
-  // 댓글 추가 함수
   const handleAddComment = (e) => {
     e.preventDefault();
-    if (!comment) return; // 댓글이 비어 있으면 아무 작업도 하지 않음
+    if (!comment) return;
 
     const newComment = {
       id: comments.length + 1,
       text: comment,
       date: new Date().toLocaleDateString(),
-      nickname, // 댓글에 고정된 닉네임 추가
+      nickname,
     };
 
-    const updatedComments = [...comments, newComment]; // 기존 댓글에 새로운 댓글 추가
-    setComments(updatedComments); // 상태 업데이트
-
-    // 해당 게시글에 댓글 추가
-    const updatedPost = { ...post, comments: updatedComments };
-    const updatedPosts = posts.map((p) =>
-      p.id === postId && p.category === category ? updatedPost : p
-    );
-    setPosts(updatedPosts);
-
-    localStorage.setItem("posts", JSON.stringify(updatedPosts)); // 로컬 스토리지에 저장
-    setComment(""); // 입력란 초기화
-  };
-
-  // 댓글 삭제 함수
-  const handleDeleteComment = (commentId) => {
-    const updatedComments = comments.filter((c) => c.id !== commentId); // 해당 댓글 삭제
+    const updatedComments = [...comments, newComment];
     setComments(updatedComments);
 
-    // 게시글 업데이트
     const updatedPost = { ...post, comments: updatedComments };
-    const updatedPosts = posts.map((p) =>
-      p.id === postId && p.category === category ? updatedPost : p
-    );
+    const updatedPosts = posts.map((p) => (p.id === postId && p.category === category ? updatedPost : p));
     setPosts(updatedPosts);
 
-    localStorage.setItem("posts", JSON.stringify(updatedPosts)); // 로컬 스토리지 업데이트
+    localStorage.setItem("posts", JSON.stringify(updatedPosts));
+    setComment("");
   };
 
-  if (!post) {
-    return <div>글을 찾을 수 없습니다.</div>;
-  }
+  const handleDeleteComment = (commentId) => {
+    const updatedComments = comments.filter((c) => c.id !== commentId);
+    setComments(updatedComments);
+
+    const updatedPost = { ...post, comments: updatedComments };
+    const updatedPosts = posts.map((p) => (p.id === postId && p.category === category ? updatedPost : p));
+    setPosts(updatedPosts);
+
+    localStorage.setItem("posts", JSON.stringify(updatedPosts));
+  };
+
+  if (!post) return <div>글을 찾을 수 없습니다.</div>;
 
   return (
     <div className="post-detail-container">
       <h1 className="post-title">{post.title}</h1>
       <div className="post-meta">
-        {/* 카테고리 이름을 등록일 왼쪽에 출력 */}
         <span className="post-category">[{categoryNames[category]}]</span>
+        <span className="post-nickname">작성자: {post.nickname}</span>
         <span className="post-date">등록일: {post.date}</span>
         <span className="post-views">조회수: {visitCount}</span>
       </div>
-      {/* 구분선 추가 */}
       <div className="post-divider"></div>
       <div className="post-content">{post.content}</div>
 
-      {/* 댓글 섹션 */}
       <div className="comment-section">
         <h3>댓글</h3>
-        {/* 댓글 입력 폼 */}
         <form onSubmit={handleAddComment}>
           <textarea
             value={comment}
@@ -127,8 +112,6 @@ const PostDetail = ({ posts = [], setPosts }) => {
           />
           <button type="submit">댓글 작성</button>
         </form>
-
-        {/* 댓글 목록 출력 */}
         <div className="comments-list">
           {comments.length > 0 ? (
             comments.map((c) => (
@@ -136,11 +119,13 @@ const PostDetail = ({ posts = [], setPosts }) => {
                 <p>{c.text}</p>
                 <div className="comment-meta">
                   <span className="comment-nickname">{c.nickname}</span>
-                  <span className="comment-date"> {c.date}</span> {/* 닉네임과 작성일 순서 변경 */}
+                  <span className="comment-date"> {c.date}</span>
                 </div>
-                <button onClick={() => handleDeleteComment(c.id)} className="delete-btn">
-                  삭제
-                </button>
+                {c.nickname === nickname && (
+                  <button onClick={() => handleDeleteComment(c.id)} className="delete-btn">
+                    삭제
+                  </button>
+                )}
               </div>
             ))
           ) : (
@@ -157,6 +142,7 @@ const PostDetail = ({ posts = [], setPosts }) => {
 };
 
 export default PostDetail;
+
 
 
 

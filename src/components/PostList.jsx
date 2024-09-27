@@ -4,7 +4,7 @@ import "../assets/css/PostList.css";
 import "../assets/css/Pagination.css";
 import Pagination from "react-js-pagination";
 
-const PostList = ({ posts, writePath, category }) => { // category 추가
+const PostList = ({ posts, writePath, category }) => {
   const [page, setPage] = useState(1);
   const navigate = useNavigate();
   const postsPerPage = 10;
@@ -34,6 +34,7 @@ const PostList = ({ posts, writePath, category }) => { // category 추가
             <tr>
               <th>글번호</th>
               <th>제목</th>
+              <th>작성자</th> {/* 작성자 열 추가 */}
               <th>등록일</th>
               <th>조회수</th>
             </tr>
@@ -43,6 +44,7 @@ const PostList = ({ posts, writePath, category }) => { // category 추가
               <tr key={post.id} onClick={() => handlePostClick(post.id)}>
                 <td>{post.id}</td>
                 <td>{post.title}</td>
+                <td>{post.nickname || "알 수 없음"}</td> {/* 작성자 닉네임 출력 */}
                 <td>{post.date}</td>
                 <td>{post.views}</td>
               </tr>
@@ -72,4 +74,6 @@ const PostList = ({ posts, writePath, category }) => { // category 추가
 };
 
 export default PostList;
+
+
 

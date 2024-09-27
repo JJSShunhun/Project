@@ -1,17 +1,17 @@
 import React from "react";
-//import { useNavigate } from "react-router-dom";
 import Header from "../components/BeforeHeader";
 import Main from "../components/Main";
 import Footer from "../components/Footer";
 
-const Home = () => {
+const Home = ({ posts }) => {
   return (
     <div>
       <Header />
-      <Main />
+      <Main posts={posts} />
       <Footer element="nexon section gray" />
     </div>
   );
 };
 
 export default Home;
+
