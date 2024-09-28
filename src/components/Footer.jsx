@@ -1,4 +1,5 @@
 import React from "react";
+import { NavLink } from "react-router-dom";
 
 const Footer = (props) => {
   return (
@@ -8,19 +9,17 @@ const Footer = (props) => {
         <div className="footer__menu">
           <div></div>
           <div>
-            <h3>사이트</h3>
+            <h3>관련사이트</h3>
             <ul>
               <li>
-                <a href="/">인디스트릿</a>
+                <a href="https://indistreet.com/" target="_blank" rel="noopener noreferrer">
+                  인디스트릿
+                </a>
               </li>
               <li>
-                <a href="/">인스타그램</a>
-              </li>
-              <li>
-                <a href="/">공연영상</a>
-              </li>
-              <li>
-                <a href="/">현장예매</a>
+              <a href="https://www.mule.co.kr/" target="_blank" rel="noopener noreferrer">
+                뮬
+              </a>
               </li>
             </ul>
           </div>
@@ -28,10 +27,13 @@ const Footer = (props) => {
             <h3>소통 마당</h3>
             <ul>
               <li>
-                <a href="/">인디토크</a>
+                <NavLink to="/talk">인디토크</NavLink>
               </li>
               <li>
-                <a href="/">공연 후기</a>
+                <NavLink to="/together">같이봐요</NavLink>
+              </li>
+              <li>
+                <NavLink to="/review_perform">공연 후기</NavLink>
               </li>
             </ul>
           </div>
@@ -39,18 +41,21 @@ const Footer = (props) => {
             <h3>공연장</h3>
             <ul>
               <li>
-                <a href="/">공연 정보</a>
+                <NavLink to="/info_perform">공연 정보</NavLink>
               </li>
               <li>
-                <a href="/">공연 홍보</a>
+                <NavLink to="/promote_perform">공연 홍보</NavLink>
               </li>
             </ul>
           </div>
           <div>
-            <h3>마이 페이지</h3>
+            <h3>회원정보</h3>
             <ul>
               <li>
-                <a href="/mypage">마이페이지</a>
+                <NavLink to="/signup">회원가입</NavLink>
+              </li>
+              <li>
+                <NavLink to="/mypage">마이페이지</NavLink>
               </li>
             </ul>
           </div>
